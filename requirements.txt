@@ -1,0 +1,3 @@
+ollama
+edge-tts # For potential local TTS fallback if needed, though the core won't use it directly
+asyncio
