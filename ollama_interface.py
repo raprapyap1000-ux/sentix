@@ -1,4 +1,5 @@
 import ollama
+import ollama.exceptions
 
 class OllamaInterface:
     def __init__(self, host="http://localhost:11434", model="llama2"):
@@ -19,4 +20,7 @@ class OllamaInterface:
 
     async def list_models(self):
         response = await self.client.list()
-        return [model['name'] for model in response['models']]
+        # Safely get 'models' key, default to empty list if not present
+        # Each item in the 'models' list is expected to be a dictionary
+        # with a 'name' key. Using .get() for robustness.
+        return [model.get('name') for model in response.get('models', []) if model.get('name')]

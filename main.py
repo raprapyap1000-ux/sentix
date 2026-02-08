@@ -1,5 +1,6 @@
 import asyncio
 import ollama
+import ollama.exceptions
 from sentix_core.agent import Agent
 from ollama_interface import OllamaInterface
 
@@ -13,16 +14,16 @@ async def main():
 
     try:
         # Verify Ollama server and model availability
-        available_models = await ollama_interface.list_models()
-        print(f"Available Ollama models: {', '.join(available_models)}")
-        if ollama_model not in [m['name'] for m in available_models]:
+        available_model_names = await ollama_interface.list_models()
+        print(f"Available Ollama models: {', '.join(available_model_names)}")
+        if ollama_model not in available_model_names:
             print(f"Error: Default model '{ollama_model}' not found. Please pull it using 'ollama pull {ollama_model}' and restart Sentix.")
             return
 
-    except ollama.ResponseError as e:
+    except ollama.exceptions.ResponseError as e:
         print(f"Error connecting to Ollama server at {ollama_host}: {e}. Please ensure Ollama is running.")
         return
-    except ollama.ClientError as e:
+    except ollama.exceptions.ClientError as e:
         print(f"An Ollama client error occurred: {e}. Please check your Ollama setup.")
         return
     except Exception as e:
