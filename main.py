@@ -7,7 +7,7 @@ async def main():
     print("Sentix: Local-first, Security-Focused AI Agent")
     print("Initializing Ollama interface...")
     ollama_host = "http://localhost:11434"
-    ollama_model = "llama2" # Default model, can be configured later
+    ollama_model = input("enter model:") # Default model, can be configured later
 
     ollama_interface = OllamaInterface(host=ollama_host, model=ollama_model)
 
